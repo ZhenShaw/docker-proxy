@@ -15,4 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/zhenshaw/docker-proxy:cadvisor  && docker push ghcr.io/zhenshaw/docker-proxy:cadvisor
+      run: docker build . --file Dockerfile --tag $docker_username/cadvisor:0.37.5
+      
+    - name: Login to Docker
+      run: echo "$docker_password" | docker login -u "$docker_username" --password-stdin
+      
+    - name: Push docker image
+      run: docker push $docker_username/cadvisor:0.37.5
